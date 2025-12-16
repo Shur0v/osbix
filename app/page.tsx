@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Phone, ArrowUpRight, Menu } from "lucide-react";
+import { Phone, ArrowUpRight, Menu, X } from "lucide-react";
 import gsap from "gsap";
 
 export default function Home() {
+  // State for mobile menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   // Refs for animated elements
   const headerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -301,11 +304,21 @@ export default function Home() {
   return (
     <div className="father pt-6 pb-14 relative flex flex-col justify-start items-start gap-2.5 bg-slate-950 min-h-screen">
       <div className="daughter w-full flex flex-col justify-start items-center gap-8 md:gap-14">
-        <div className="layer1 w-full max-w-[1440px] mx-auto flex flex-col justify-start items-start gap-8 md:gap-14 px-4 md:px-14">
+        <div className="layer1 w-full max-w-[1440px] mx-auto flex flex-col justify-start items-start gap-8 md:gap-14 px-4 md:px-14 relative">
           {/* Header */}
-          <div ref={headerRef} className="layer2 self-stretch h-10 inline-flex justify-between items-center">
+          <div ref={headerRef} className="layer2 self-stretch min-h-10 inline-flex justify-between items-center relative z-40">
             {/* Hamburger menu for mobile */}
-            <Menu className="w-6 h-6 text-white lg:hidden cursor-pointer" />
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="lg:hidden cursor-pointer p-2 -ml-2 z-50"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <X className="w-6 h-6 text-white" />
+              ) : (
+                <Menu className="w-6 h-6 text-white" />
+              )}
+            </button>
             
             <div ref={logoRef} className="flex-1 lg:flex-none flex justify-center lg:justify-start">
               <Image 
@@ -400,6 +413,70 @@ export default function Home() {
                 Contact
               </div>
             </div>
+
+            {/* Mobile Menu */}
+            {isMenuOpen && (
+              <div className="lg:hidden absolute top-full left-0 right-0 bg-slate-950 border-t border-white/10 rounded-b-2xl z-[60] mt-1 shadow-xl">
+                <div className="flex flex-col px-4 py-4 gap-2 w-full">
+                  <div 
+                    className="px-4 py-3 rounded-[999px] flex justify-start items-center gap-2 cursor-pointer transition-all duration-300 hover:bg-white/10"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                  <div className="text-slate-100 text-base font-medium font-['Inter'] leading-4 tracking-tight">
+                    Home
+                  </div>
+                </div>
+
+                <div 
+                  className="px-4 py-3 rounded-[999px] flex justify-start items-center gap-2 cursor-pointer transition-all duration-300 hover:bg-white/10"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <div className="text-slate-100 text-base font-medium font-['Inter'] leading-4 tracking-tight">
+                    Services
+                  </div>
+                </div>
+
+                <div 
+                  className="px-4 py-3 rounded-[999px] flex justify-start items-center gap-2 cursor-pointer transition-all duration-300 hover:bg-white/10"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <div className="text-slate-100 text-base font-medium font-['Inter'] leading-4 tracking-tight">
+                    Industries
+                  </div>
+                </div>
+
+                <div 
+                  className="px-4 py-3 rounded-[999px] flex justify-start items-center gap-2 cursor-pointer transition-all duration-300 hover:bg-white/10"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <div className="text-slate-100 text-base font-medium font-['Inter'] leading-4 tracking-tight">
+                    Blog
+                  </div>
+                </div>
+
+                <div 
+                  className="px-4 py-3 rounded-[999px] flex justify-start items-center gap-2 cursor-pointer transition-all duration-300 hover:bg-white/10"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <div className="text-slate-100 text-base font-medium font-['Inter'] leading-4 tracking-tight">
+                    About Us
+                  </div>
+                </div>
+
+                <div 
+                  className="px-4 py-3 bg-amber-300 rounded-[999px] flex justify-center items-center gap-2 cursor-pointer transition-all duration-300 hover:bg-amber-400 mt-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Phone 
+                    className="w-5 h-5 text-neutral-900"
+                  />
+                  <div className="text-slate-950 text-base font-medium font-['Inter'] leading-4 tracking-tight">
+                    Contact
+                  </div>
+                </div>
+              </div>
+              </div>
+            )}
           </div>
         </div>
 
